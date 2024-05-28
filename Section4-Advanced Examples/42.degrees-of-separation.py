@@ -3,6 +3,7 @@ from pyspark import SparkConf, SparkContext
 
 conf = SparkConf().setMaster("local").setAppName("DegreesOfSeparation")
 sc = SparkContext(conf = conf)
+sc.setLogLevel("ERROR")
 
 # The characters we wish to find the degree of separation between:
 startCharacterID = 5306 #SpiderMan
@@ -30,7 +31,7 @@ def convertToBFS(line):
 
 
 def createStartingRdd():
-    inputFile = sc.textFile("file:///sparkcourse/marvel-graph.txt")
+    inputFile = sc.textFile("36.Marvel-Graph.txt")
     return inputFile.map(convertToBFS)
 
 def bfsMap(node):

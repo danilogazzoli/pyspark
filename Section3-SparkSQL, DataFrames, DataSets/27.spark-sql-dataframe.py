@@ -2,8 +2,11 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.appName("SparkSQL").getOrCreate()
 
+sc = spark.sparkContext
+sc.setLogLevel("ERROR")
+
 people = spark.read.option("header", "true").option("inferSchema", "true")\
-    .csv("file:///SparkCourse/fakefriends-header.csv")
+    .csv("27.fakefriends-header.csv")
     
 print("Here is our inferred schema:")
 people.printSchema()

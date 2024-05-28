@@ -4,6 +4,9 @@ from pyspark.sql.types import StructType, StructField, StringType, IntegerType, 
 
 spark = SparkSession.builder.appName("MinTemperatures").getOrCreate()
 
+sc = spark.sparkContext
+sc.setLogLevel("ERROR")
+
 schema = StructType([ \
                      StructField("stationID", StringType(), True), \
                      StructField("date", IntegerType(), True), \
@@ -11,7 +14,7 @@ schema = StructType([ \
                      StructField("temperature", FloatType(), True)])
 
 # // Read the file as dataframe
-df = spark.read.schema(schema).csv("file:///SparkCourse/1800.csv")
+df = spark.read.schema(schema).csv("31.1800.csv")
 df.printSchema()
 
 # Filter out all but TMIN entries

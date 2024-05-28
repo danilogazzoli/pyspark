@@ -3,6 +3,9 @@ from pyspark.sql import functions as func
 
 spark = SparkSession.builder.appName("WordCount").getOrCreate()
 
+sc = spark.sparkContext
+sc.setLogLevel("ERROR")
+
 # Read each line of my book into a dataframe
 inputDF = spark.read.text("file:///SparkCourse/book.txt")
 

@@ -3,14 +3,16 @@ from pyspark.sql import functions as func
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
 spark = SparkSession.builder.appName("MostObscureSuperheroes").getOrCreate()
+sc = spark.sparkContext
+sc.setLogLevel("ERROR")
 
 schema = StructType([ \
                      StructField("id", IntegerType(), True), \
                      StructField("name", StringType(), True)])
 
-names = spark.read.schema(schema).option("sep", " ").csv("file:///SparkCourse/Marvel-names.txt")
+names = spark.read.schema(schema).option("sep", " ").csv("36.Marvel-Names.txt")
 
-lines = spark.read.text("file:///SparkCourse/Marvel-graph.txt")
+lines = spark.read.text("36.Marvel-Graph.txt")
 
 # Small tweak vs. what's shown in the video: we trim whitespace from each line as this
 # could throw the counts off by one.

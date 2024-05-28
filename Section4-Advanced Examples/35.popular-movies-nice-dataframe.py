@@ -3,6 +3,8 @@
 Created on Mon Sep  7 15:28:00 2020
 
 @author: Frank
+
+Use broadcast variables to display movie names instead of ID numbers, lookupdataset
 """
 
 from pyspark.sql import SparkSession
@@ -13,13 +15,15 @@ import codecs
 def loadMovieNames():
     movieNames = {}
     # CHANGE THIS TO THE PATH TO YOUR u.ITEM FILE:
-    with codecs.open("E:/SparkCourse/ml-100k/u.ITEM", "r", encoding='ISO-8859-1', errors='ignore') as f:
+    with codecs.open("../ml-100k/u.item", "r", encoding='ISO-8859-1', errors='ignore') as f:
         for line in f:
             fields = line.split('|')
             movieNames[int(fields[0])] = fields[1]
     return movieNames
 
 spark = SparkSession.builder.appName("PopularMovies").getOrCreate()
+sc = spark.sparkContext
+sc.setLogLevel("ERROR")
 
 nameDict = spark.sparkContext.broadcast(loadMovieNames())
 
@@ -31,7 +35,7 @@ schema = StructType([ \
                      StructField("timestamp", LongType(), True)])
 
 # Load up movie data as dataframe
-moviesDF = spark.read.option("sep", "\t").schema(schema).csv("file:///SparkCourse/ml-100k/u.data")
+moviesDF = spark.read.option("sep", "\t").schema(schema).csv("../ml-100k/u.data")
 
 movieCounts = moviesDF.groupBy("movieID").count()
 

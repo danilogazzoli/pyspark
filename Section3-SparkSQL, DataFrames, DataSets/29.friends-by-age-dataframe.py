@@ -4,7 +4,10 @@ from pyspark.sql import functions as func
 
 spark = SparkSession.builder.appName("FriendsByAge").getOrCreate()
 
-lines = spark.read.option("header", "true").option("inferSchema", "true").csv("file:///SparkCourse/fakefriends-header.csv")
+sc = spark.sparkContext
+sc.setLogLevel("ERROR")
+
+lines = spark.read.option("header", "true").option("inferSchema", "true").csv("29.fakefriends-header.csv")
 
 # Select only age and numFriends columns
 friendsByAge = lines.select("age", "friends")

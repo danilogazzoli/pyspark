@@ -4,6 +4,9 @@ from pyspark.sql.types import StructType, StructField, IntegerType, FloatType
 
 spark = SparkSession.builder.appName("TotalSpentByCustomer").master("local[*]").getOrCreate()
 
+sc = spark.sparkContext
+sc.setLogLevel("ERROR")
+
 # Create schema when reading customer-orders
 customerOrderSchema = StructType([ \
                                   StructField("cust_id", IntegerType(), True),
@@ -12,7 +15,7 @@ customerOrderSchema = StructType([ \
                                   ])
 
 # Load up the data into spark dataset
-customersDF = spark.read.schema(customerOrderSchema).csv("file:///SparkCourse/customer-orders.csv")
+customersDF = spark.read.schema(customerOrderSchema).csv("33.customer-orders.csv")
 
 totalByCustomer = customersDF.groupBy("cust_id").agg(func.round(func.sum("amount_spent"), 2) \
                                       .alias("total_spent"))
